@@ -9,23 +9,21 @@
 #include <BLEServer.h>
 #include "Server_Callbacks.h"
 
-
-
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
 
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-
 void setup()
 {
   Serial.begin(115200);
   Serial.println("Starting BLE work!");
 
+  pinMode(SWITCH_PIN, OUTPUT);
+
   BLEDevice::init("CHARGE CONTROLLER");           // Creates visible name of device
   BLEServer *pServer = BLEDevice::createServer(); // Sets the deivice as a server
-  // pServer->setCallbacks(new ServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);         // Creates a service
   BLECharacteristic *pCharacteristic = pService->createCharacteristic( // Creates a characteristic in that service with the UUID and Properties
       CHARACTERISTIC_UUID,
@@ -45,7 +43,6 @@ void setup()
   BLEDevice::startAdvertising();
   Serial.println("Characteristic defined! Now you can read it in your phone!");
 };
-
 
 void loop()
 {
